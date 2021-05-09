@@ -37,7 +37,7 @@ const UseStateBasics = () => {
 
 export default UseStateBasics;
 
-//Few points to remember:
+//Few points to remember:(Important )
 //Hooks can only be invoked inside components
 
 //Components using hooks have to be upper case, we can have lower cased components but we need to import them with a name that has first letter Capital
