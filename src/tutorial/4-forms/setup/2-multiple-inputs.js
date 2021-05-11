@@ -7,36 +7,40 @@ import React, { useState } from 'react';
 // dynamic object keys
 
 const ControlledInputs = () => {
-  const [firstName, setFirstName] = useState('');
-  const [email, setEmail] = useState('');
+  const [person,setPerson] = useState({firstName:'', email:''});
   const [people, setPeople] = useState([]);
+  
+  const handleChange = (e)=>{
+      const val = e.target.name;
+      const x = e.target.value;
+      setPerson((prevState)=>{
+        return {...prevState, [val]: x};
+        //Same as firstName: e.target.value
+      })
+  }
 
-  const handleSubmit = (e) => {
+  const submitHandler = (e)=>{
     e.preventDefault();
-    if (firstName && email) {
-      const person = { id: new Date().getTime().toString(), firstName, email };
-      console.log(person);
-      setPeople((people) => {
-        return [...people, person];
-      });
-      setFirstName('');
-      setEmail('');
-    } else {
-      console.log('empty values');
+    if(person.firstName && person.email){
+        setPeople((people)=>{
+          return [...people,{id:new Date().toString(),firstName: person.firstName, email: person.email}]
+        })
+        setPerson({firstName:'',email:''})
     }
-  };
+  }
+
   return (
     <>
       <article>
-        <form className='form' onSubmit={handleSubmit}>
+        <form className='form' onSubmit={submitHandler}>
           <div className='form-control'>
             <label htmlFor='firstName'>Name : </label>
             <input
               type='text'
               id='firstName'
               name='firstName'
-              value={firstName}
-              onChange={(e) => setFirstName(e.target.value)}
+              value={person.firstName}
+              onChange={handleChange}
             />
           </div>
           <div className='form-control'>
@@ -45,8 +49,8 @@ const ControlledInputs = () => {
               type='email'
               id='email'
               name='email'
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              value={person.email}
+              onChange={handleChange}
             />
           </div>
           <button type='submit'>add person</button>
